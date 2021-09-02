@@ -77,5 +77,12 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-   
+    @Test
+    public void the_total_cost_should_equal_number_of_item_selected_from_menu()
+    {
+        List<Item> selectedItems = new ArrayList<>();
+        List<Item> menu = restaurant.getMenu();
+        selectedItems.add(menu.get(0));
+        assertEquals(119,restaurant.checkOrderTotal(selectedItems));
+    }
 }

@@ -70,4 +70,16 @@ public class Restaurant {
         return name;
     }
 
+    public int checkOrderTotal(List<Item> itemsChosen) {
+       /* int orderTotal = 0;
+        for(Item iteminmenu : itemsChosen)
+        {
+            orderTotal = orderTotal + iteminmenu.getValue();
+
+        }
+
+        return orderTotal;*/
+        return -9999;
+    }
+
 }

@@ -1,6 +1,7 @@
 import org.hamcrest.Matcher;
 import org.hamcrest.*;
 import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.hamcrest.Matcher;
 
@@ -8,6 +9,8 @@ import java.time.*;
 
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +18,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestaurantTest {
     Restaurant restaurant;
 
+    @BeforeEach
+    public void addRestaurantInList()
+    {
+        LocalTime openingTime = LocalTime.parse("10:30:00");
+        LocalTime closingTime = LocalTime.parse("22:00:00");
+        restaurant =new Restaurant("Amma's Biryani","Bangalore", openingTime,closingTime);
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+    }
 
 
     //REFACTOR ALL THE REPEATED LINES OF CODE
@@ -24,37 +36,20 @@ class RestaurantTest {
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
 
-        LocalTime openingTime = LocalTime.now().minusHours(2);
-        LocalTime closingTime = LocalTime.now().plusMinutes(30);
-        boolean status;
-        if((restaurant.getCurrentTime().isAfter(openingTime) && (restaurant.getCurrentTime().isBefore(closingTime) )))
-        {
-            status=true;
-            System.out.println("Restaurant is open ");
-        }
-        else{
-            status=false;
-            System.out.println("Restaurant is closed ");
-        }
-      assertTrue(status==true,"Restaurant is closed");*/
+        LocalTime openingTime = LocalTime.parse("10:30:00");
+        LocalTime closingTime = LocalTime.parse("23:30:00");
+        restaurant =new Restaurant("Amma's Biryani","Bangalore", openingTime,closingTime);
+        assertTrue(restaurant.isRestaurantOpen(),"The restaurant is not open");
+
 
     }
 
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
-        LocalTime openingTime = LocalTime.now().plusHours(1);
-        LocalTime closingTime = LocalTime.now().minusMinutes(30);
-        boolean status = false;
-        if((LocalTime.now().isBefore(openingTime)&& LocalTime.now().isAfter(closingTime)))
-        {
-            status=true;
-            if(status)
-            System.out.println("Restaurant is closed ");
-        }
-        else{
-            System.out.println("Restaurant is open " );
-        }
-        assertTrue(status==true,"Restaurant is Open");
+        LocalTime openingTime = LocalTime.parse("18:30:00");
+        LocalTime closingTime = LocalTime.parse("20:30:00");
+        restaurant =new Restaurant("Amma's Biryani","Bangalore", openingTime,closingTime);
+        assertFalse(restaurant.isRestaurantOpen(),"The restaurant is open");
 
     }
 
@@ -64,11 +59,7 @@ class RestaurantTest {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void adding_item_to_menu_should_increase_menu_size_by_1(){
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant();
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
+
 
         int initialMenuSize = restaurant.getMenu().size();
         restaurant.addToMenu("Sizzling brownie",319);
@@ -76,26 +67,15 @@ class RestaurantTest {
     }
     @Test
     public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant();
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
-
         int initialMenuSize = restaurant.getMenu().size();
         restaurant.removeFromMenu("Vegetable lasagne");
         assertEquals(initialMenuSize-1,restaurant.getMenu().size());
     }
     @Test
     public void removing_item_that_does_not_exist_should_throw_exception() {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
-        restaurant =new Restaurant();
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
-
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   
 }

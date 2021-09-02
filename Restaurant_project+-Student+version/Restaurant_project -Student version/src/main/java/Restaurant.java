@@ -71,15 +71,15 @@ public class Restaurant {
     }
 
     public int checkOrderTotal(List<Item> itemsChosen) {
-       /* int orderTotal = 0;
+        int orderTotal = 0;
         for(Item iteminmenu : itemsChosen)
         {
             orderTotal = orderTotal + iteminmenu.getValue();
 
         }
 
-        return orderTotal;*/
-        return -9999;
+        return orderTotal;
+
     }
 
 }
